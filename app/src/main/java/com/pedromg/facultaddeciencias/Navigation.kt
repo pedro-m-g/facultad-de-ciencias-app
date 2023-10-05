@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -31,12 +30,12 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.pedromg.facultaddeciencias.ui.views.NewsView
 import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -48,58 +47,20 @@ fun Navigation() {
     var selectedRoute by rememberSaveable {
         mutableStateOf(Screen.NewsScreen.route)
     }
+    val screens = listOf(
+        Screen.NewsScreen
+    )
     ModalNavigationDrawer(
         drawerContent = {
-            ModalDrawerSheet {
-                Column(
-                    verticalArrangement = Arrangement.Bottom,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(200.dp)
-                        .background(Color(0xFF2E7D32))
-                        .padding(16.dp)
-                ){
-                    Text(
-                        text = "Logo",
-                        color = Color.White
-                    )
+            NavigationDrawer(
+                screens = screens,
+                selectedRoute = selectedRoute
+            ) { route ->
+                selectedRoute = route
+                navController.navigate(selectedRoute)
+                scope.launch {
+                    drawerState.close()
                 }
-                Spacer(
-                    modifier = Modifier
-                        .padding(8.dp)
-                )
-                Text(
-                    text = "Facultad de Ciencias",
-                    fontSize = 28.sp,
-                    modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
-                )
-                Spacer(
-                    modifier = Modifier
-                        .padding(8.dp)
-                )
-
-                NavigationDrawerItem(
-                    label = {
-                        Text(text = "Noticias")
-                    },
-                    selected = selectedRoute == Screen.NewsScreen.route,
-                    onClick = {
-                        selectedRoute = Screen.NewsScreen.route
-                        navController.navigate(selectedRoute)
-                        scope.launch {
-                            drawerState.close()
-                        }
-                    },
-                    icon = {
-                        Icon(
-                            imageVector = Icons.Default.Home,
-                            contentDescription = "Noticias"
-                        )
-                    },
-                    modifier = Modifier
-                        .padding(NavigationDrawerItemDefaults.ItemPadding)
-                )
             }
         },
         drawerState = drawerState
@@ -108,7 +69,7 @@ fun Navigation() {
             topBar = {
                 TopAppBar(
                     title = {
-                        Text(text = "Facultad de Ciencias UABC")
+                        Text(stringResource(R.string.app_name))
                     },
                     navigationIcon = {
                         IconButton(
@@ -135,13 +96,89 @@ fun Navigation() {
                     navController = navController,
                     startDestination = Screen.NewsScreen.route
                 ) {
-                    composable(
-                        route = Screen.NewsScreen.route
-                    ) {
-                        NewsView()
+                    screens.forEach { screen ->
+                        composable(
+                            route = screen.route,
+                            content = screen.content
+                        )
                     }
                 }
             }
         }
     }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NavigationDrawer(
+    screens: List<Screen>,
+    selectedRoute: String,
+    onRouteChange: (selectedRoute: String) -> Unit
+) {
+    ModalDrawerSheet {
+        Column(
+            verticalArrangement = Arrangement.Bottom,
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(200.dp)
+                .background(Color(0xFF2E7D32))
+                .padding(16.dp)
+        ){
+            Text(
+                text = "Logo",
+                color = Color.White
+            )
+        }
+        Spacer(
+            modifier = Modifier
+                .padding(8.dp)
+        )
+        Text(
+            text = stringResource(R.string.app_name),
+            fontSize = 28.sp,
+            modifier = Modifier
+                .padding(NavigationDrawerItemDefaults.ItemPadding)
+        )
+        Spacer(
+            modifier = Modifier
+                .padding(8.dp)
+        )
+
+        screens.forEach { screen ->
+            NavigationEntry(
+                screen = screen,
+                selectedRoute = selectedRoute,
+                onRouteChange = onRouteChange
+            )
+        }
+
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun NavigationEntry(
+    screen: Screen,
+    selectedRoute: String,
+    onRouteChange: (route: String) -> Unit
+) {
+    NavigationDrawerItem(
+        label = {
+            Text(
+                text = screen.title
+            )
+        },
+        selected = selectedRoute == screen.route,
+        onClick = {
+            onRouteChange(screen.route)
+        },
+        icon = {
+            Icon(
+                imageVector = screen.icon,
+                contentDescription = screen.title
+            )
+        },
+        modifier = Modifier
+            .padding(NavigationDrawerItemDefaults.ItemPadding)
+    )
 }
