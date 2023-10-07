@@ -1,9 +1,11 @@
 package com.pedromg.facultaddeciencias
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -28,8 +30,11 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -76,9 +81,6 @@ fun Navigation() {
         Scaffold(
             topBar = {
                 TopAppBar(
-                    title = {
-                        Text(stringResource(R.string.app_name))
-                    },
                     navigationIcon = {
                         IconButton(
                             onClick = {
@@ -92,13 +94,28 @@ fun Navigation() {
                                 contentDescription = "Menú"
                             )
                         }
+                    },
+                    title = {
+                        Text(stringResource(R.string.app_name))
+                    },
+                    actions = {
+                        Image(
+                            painter = painterResource(id = R.drawable.facultad_de_ciencias_logo),
+                            contentDescription = null,
+                            contentScale = ContentScale.Fit,
+                            modifier = Modifier
+                                .height(36.dp)
+                                .padding(end = 8.dp)
+                        )
                     }
                 )
             }
         ) { innerPadding ->
             Surface(
+                color = Color.LightGray,
                 modifier = Modifier
                     .padding(innerPadding)
+                    .fillMaxSize()
             ) {
                 NavHost(
                     navController = navController,
@@ -132,9 +149,12 @@ fun NavigationDrawer(
                 .background(Color(0xFF2E7D32))
                 .padding(16.dp)
         ){
-            Text(
-                text = "Logo",
-                color = Color.White
+            Image(
+                painter = painterResource(id = R.drawable.uabc_logo),
+                contentDescription = null,
+                contentScale = ContentScale.FillHeight,
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
             )
         }
         Spacer(
