@@ -4,6 +4,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 
 @Composable
-fun NewsView() {
-    Text(text = "Noticias")
+fun ProfessionalPracticeView() {
+    Text(text = "Modalidades de Aprendizaje y Prácticas Profesionales")
 }

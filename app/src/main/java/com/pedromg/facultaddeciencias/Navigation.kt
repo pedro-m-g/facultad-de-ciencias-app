@@ -48,7 +48,15 @@ fun Navigation() {
         mutableStateOf(Screen.NewsScreen.route)
     }
     val screens = listOf(
-        Screen.NewsScreen
+        Screen.NewsScreen,
+        Screen.CalendarScreen,
+        Screen.CounselingScreen,
+        Screen.ProceduresScreen,
+        Screen.SocialServiceScreen,
+        Screen.ProfessionalPracticeScreen,
+        Screen.JobOffersScreen,
+        Screen.TeachersProjectsScreen,
+        Screen.StudentsProjectsScreen
     )
     ModalNavigationDrawer(
         drawerContent = {
@@ -120,7 +128,7 @@ fun NavigationDrawer(
             verticalArrangement = Arrangement.Bottom,
             modifier = Modifier
                 .fillMaxWidth()
-                .height(200.dp)
+                .height(150.dp)
                 .background(Color(0xFF2E7D32))
                 .padding(16.dp)
         ){
