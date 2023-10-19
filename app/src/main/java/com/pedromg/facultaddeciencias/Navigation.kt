@@ -91,7 +91,7 @@ fun Navigation() {
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Menu,
-                                contentDescription = "Menú"
+                                contentDescription = stringResource(R.string.menu_content_description)
                             )
                         }
                     },
