@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -26,52 +27,61 @@ import com.pedromg.facultaddeciencias.models.NewsArticle
 fun NewsView() {
     val newsArticles = listOf(
         NewsArticle(
-            title = "Nuevo descubrimiento de exoplaneta",
-            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante"
+            title = "Artículo #1",
+            content = "Contenido del artículo #1",
+            excerpt = "Resumen del artículo #1"
         ),
         NewsArticle(
-            title = "Nuevo descubrimiento de exoplaneta",
-            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante"
+            title = "Artículo #2",
+            content = "Contenido del artículo #2",
+            excerpt = "Resumen del artículo #2"
         ),
         NewsArticle(
-            title = "Nuevo descubrimiento de exoplaneta",
-            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante"
+            title = "Artículo #3",
+            content = "Contenido del artículo #3",
+            excerpt = "Resumen del artículo #3"
         ),
         NewsArticle(
-            title = "Nuevo descubrimiento de exoplaneta",
-            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante"
+            title = "Artículo #4",
+            content = "Contenido del artículo #4",
+            excerpt = "Resumen del artículo #4"
         ),
         NewsArticle(
-            title = "Nuevo descubrimiento de exoplaneta",
-            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante"
+            title = "Artículo #5",
+            content = "Contenido del artículo #5",
+            excerpt = "Resumen del artículo #5"
         )
     )
 
     Column(
         modifier = Modifier
-            .background(Color.White)
             .fillMaxSize()
     ) {
-        Image(
-            painter = painterResource(R.drawable.news_bg),
-            contentDescription = null,
-            contentScale = ContentScale.FillWidth,
-            modifier = Modifier
-                .height(200.dp)
-        )
-        Column(
-            modifier = Modifier
-                .padding(8.dp)
-        ) {
-            Text(
-                text = "Noticias",
-                fontSize = 28.sp
-            )
+        Column {
+            Column(
+                modifier = Modifier
+                    .padding(bottom = 16.dp)
+                    .background(Color(0xFF2E7D32))
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.news_bg),
+                    contentDescription = null,
+                    contentScale = ContentScale.FillWidth,
+                    modifier = Modifier
+                        .height(200.dp)
+                )
+                Column(
+                    modifier = Modifier
+                        .padding(8.dp)
+                ) {
+                    Text(
+                        text = "Noticias",
+                        fontSize = 28.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+                }
+            }
             LazyColumn {
                 newsArticles.forEach { newsArticle ->
                     item {
@@ -94,6 +104,7 @@ fun NewsCard(
 ) {
     Row(
         modifier = modifier
+            .background(Color.White)
     ) {
         Column(
             verticalArrangement = Arrangement.Center,
