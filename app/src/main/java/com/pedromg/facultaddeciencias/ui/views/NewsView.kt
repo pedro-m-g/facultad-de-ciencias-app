@@ -20,33 +20,40 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.pedromg.facultaddeciencias.R
+import com.pedromg.facultaddeciencias.Screen
 import com.pedromg.facultaddeciencias.models.NewsArticle
 
 @Composable
-fun NewsView() {
+fun NewsView(navController: NavHostController) {
     val newsArticles = listOf(
         NewsArticle(
+            id = "1",
             title = "Artículo #1",
             content = "Contenido del artículo #1",
             excerpt = "Resumen del artículo #1"
         ),
         NewsArticle(
+            id = "2",
             title = "Artículo #2",
             content = "Contenido del artículo #2",
             excerpt = "Resumen del artículo #2"
         ),
         NewsArticle(
+            id = "3",
             title = "Artículo #3",
             content = "Contenido del artículo #3",
             excerpt = "Resumen del artículo #3"
         ),
         NewsArticle(
+            id = "4",
             title = "Artículo #4",
             content = "Contenido del artículo #4",
             excerpt = "Resumen del artículo #4"
         ),
         NewsArticle(
+            id = "5",
             title = "Artículo #5",
             content = "Contenido del artículo #5",
             excerpt = "Resumen del artículo #5"
@@ -88,7 +95,13 @@ fun NewsView() {
                         NewsCard(
                             newsArticle = newsArticle,
                             modifier = Modifier
-                                .padding(bottom = 8.dp)
+                                .padding(bottom = 8.dp),
+                            onClick = {
+                                navController.navigate(
+                                    Screen.NewsArticleScreen
+                                        .withParams(newsArticle.id)
+                                )
+                            }
                         )
                     }
                 }
@@ -100,7 +113,8 @@ fun NewsView() {
 @Composable
 fun NewsCard(
     modifier: Modifier = Modifier,
-    newsArticle: NewsArticle
+    newsArticle: NewsArticle,
+    onClick: () -> Unit
 ) {
     Row(
         modifier = modifier
@@ -135,9 +149,7 @@ fun NewsCard(
                 text = newsArticle.excerpt
             )
             Button(
-                onClick = {
-
-                }
+                onClick = onClick
             ) {
                 Text(text = "Leer más")
             }
@@ -150,9 +162,11 @@ fun NewsCard(
 fun NewsCardPreview() {
     NewsCard(
         newsArticle = NewsArticle(
+            id = "1",
             title = "Nuevo descubrimiento de exoplaneta",
             content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
             excerpt = "Resumen del artículo super interesante"
-        )
+        ),
+        onClick = { }
     )
 }

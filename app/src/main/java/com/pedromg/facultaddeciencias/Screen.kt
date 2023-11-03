@@ -6,6 +6,7 @@ import androidx.compose.material.icons.filled.Build
 import androidx.compose.material.icons.filled.DateRange
 import androidx.compose.material.icons.filled.Face
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Person
@@ -13,9 +14,14 @@ import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.navigation.NavBackStackEntry
+import androidx.navigation.NavHostController
+import androidx.navigation.NavType
+import androidx.navigation.compose.NamedNavArgument
+import androidx.navigation.compose.navArgument
 import com.pedromg.facultaddeciencias.ui.views.CalendarView
 import com.pedromg.facultaddeciencias.ui.views.CounselingView
 import com.pedromg.facultaddeciencias.ui.views.JobOffersView
+import com.pedromg.facultaddeciencias.ui.views.NewsArticleView
 import com.pedromg.facultaddeciencias.ui.views.NewsView
 import com.pedromg.facultaddeciencias.ui.views.ProceduresView
 import com.pedromg.facultaddeciencias.ui.views.ProfessionalPracticeView
@@ -25,17 +31,41 @@ import com.pedromg.facultaddeciencias.ui.views.TeachersProjectsView
 
 sealed class Screen(
     val route: String,
-    val title: String,
-    val icon: ImageVector,
-    val content: @Composable (navBackStackEntry: NavBackStackEntry) -> Unit
+    val title: String = "",
+    val icon: ImageVector = Icons.Default.Home,
+    val content: @Composable (navBackStackEntry: NavBackStackEntry, navController: NavHostController) -> Unit,
+    val arguments: List<NamedNavArgument> = listOf(),
+    val isPrimary: Boolean = true,
+    val basePath: String = ""
 ) {
+
+    fun withParams(vararg params: String): String {
+        return params.joinToString(
+            prefix = "$basePath/",
+            separator = "/"
+        )
+    }
 
     object NewsScreen : Screen(
         route = "news_screen",
         title = "Noticias",
         icon = Icons.Default.Notifications,
-        content = {
-            NewsView()
+        content = { _: NavBackStackEntry, navController: NavHostController ->
+            NewsView(navController)
+        }
+    )
+
+    object NewsArticleScreen : Screen(
+        route = "news_article_screen/{articleId}",
+        basePath = "news_article_screen",
+        isPrimary = false,
+        arguments = listOf(
+            navArgument("articleId") {
+                type = NavType.StringType
+            }
+        ),
+        content = { navBackStackEntry: NavBackStackEntry, _: NavHostController ->
+            NewsArticleView(navBackStackEntry)
         }
     )
 
@@ -43,7 +73,7 @@ sealed class Screen(
         route = "calendar_screen",
         title = "Calendario de Actividades",
         icon = Icons.Default.DateRange,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             CalendarView()
         }
     )
@@ -52,7 +82,7 @@ sealed class Screen(
         route = "counseling_screen",
         title = "Asesorías",
         icon = Icons.Default.Person,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             CounselingView()
         }
     )
@@ -61,7 +91,7 @@ sealed class Screen(
         route = "procedures_screen",
         title = "Trámites escolares",
         icon = Icons.Default.Info,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             ProceduresView()
         }
     )
@@ -70,7 +100,7 @@ sealed class Screen(
         route = "social_service_screen",
         title = "Programas de Servicio Social",
         icon = Icons.Default.Favorite,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             SocialServiceView()
         }
     )
@@ -79,7 +109,7 @@ sealed class Screen(
         route = "professional_practice_screen",
         title = "Modalidades de Aprendizaje y Prácticas Profesionales",
         icon = Icons.Default.AccountBox,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             ProfessionalPracticeView()
         }
     )
@@ -88,7 +118,7 @@ sealed class Screen(
         route = "job_offers_screen",
         title = "Ofertas Laborales",
         icon = Icons.Default.Star,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             JobOffersView()
         }
     )
@@ -97,7 +127,7 @@ sealed class Screen(
         route = "teachers_projects_screen",
         title = "Proyectos de Investigación",
         icon = Icons.Default.Build,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             TeachersProjectsView()
         }
     )
@@ -106,7 +136,7 @@ sealed class Screen(
         route = "students_projects_screen",
         title = "Proyectos Cimarrones",
         icon = Icons.Default.Face,
-        content = {
+        content = { _: NavBackStackEntry, _: NavHostController ->
             StudentsProjectsView()
         }
     )

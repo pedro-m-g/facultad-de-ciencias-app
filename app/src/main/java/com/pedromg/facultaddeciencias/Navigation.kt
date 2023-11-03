@@ -54,6 +54,8 @@ fun Navigation() {
     }
     val screens = listOf(
         Screen.NewsScreen,
+        Screen.NewsArticleScreen,
+
         Screen.CalendarScreen,
         Screen.CounselingScreen,
         Screen.ProceduresScreen,
@@ -124,7 +126,10 @@ fun Navigation() {
                     screens.forEach { screen ->
                         composable(
                             route = screen.route,
-                            content = screen.content
+                            arguments = screen.arguments,
+                            content = {
+                                screen.content(it, navController)
+                            }
                         )
                     }
                 }
@@ -172,14 +177,15 @@ fun NavigationDrawer(
                 .padding(8.dp)
         )
 
-        screens.forEach { screen ->
-            NavigationEntry(
-                screen = screen,
-                selectedRoute = selectedRoute,
-                onRouteChange = onRouteChange
-            )
-        }
-
+        screens
+            .filter { it.isPrimary }
+            .forEach {
+                NavigationEntry(
+                    screen = it,
+                    selectedRoute = selectedRoute,
+                    onRouteChange = onRouteChange
+                )
+            }
     }
 }
 
