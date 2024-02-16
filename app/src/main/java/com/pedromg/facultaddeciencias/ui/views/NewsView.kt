@@ -1,5 +1,7 @@
 package com.pedromg.facultaddeciencias.ui.views
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -12,6 +14,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -24,41 +27,11 @@ import androidx.navigation.NavHostController
 import com.pedromg.facultaddeciencias.R
 import com.pedromg.facultaddeciencias.Screen
 import com.pedromg.facultaddeciencias.models.NewsArticle
+import java.time.Instant
 
 @Composable
-fun NewsView(navController: NavHostController) {
-    val newsArticles = listOf(
-        NewsArticle(
-            id = "1",
-            title = "Artículo #1",
-            content = "Contenido del artículo #1",
-            excerpt = "Resumen del artículo #1"
-        ),
-        NewsArticle(
-            id = "2",
-            title = "Artículo #2",
-            content = "Contenido del artículo #2",
-            excerpt = "Resumen del artículo #2"
-        ),
-        NewsArticle(
-            id = "3",
-            title = "Artículo #3",
-            content = "Contenido del artículo #3",
-            excerpt = "Resumen del artículo #3"
-        ),
-        NewsArticle(
-            id = "4",
-            title = "Artículo #4",
-            content = "Contenido del artículo #4",
-            excerpt = "Resumen del artículo #4"
-        ),
-        NewsArticle(
-            id = "5",
-            title = "Artículo #5",
-            content = "Contenido del artículo #5",
-            excerpt = "Resumen del artículo #5"
-        )
-    )
+fun NewsView(navController: NavHostController, viewModel: NewsViewModel) {
+    val newsArticles = viewModel.news.value
 
     Column(
         modifier = Modifier
@@ -107,6 +80,10 @@ fun NewsView(navController: NavHostController) {
                 }
             }
         }
+    }
+    DisposableEffect(Unit) {
+        viewModel.fetchNews()
+        onDispose {  }
     }
 }
 
@@ -157,6 +134,7 @@ fun NewsCard(
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 @Preview(showBackground = true)
 fun NewsCardPreview() {
@@ -164,8 +142,11 @@ fun NewsCardPreview() {
         newsArticle = NewsArticle(
             id = "1",
             title = "Nuevo descubrimiento de exoplaneta",
-            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante"
+            body = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
+            excerpt = "Resumen del artículo super interesante",
+            createdAt = Instant.now(),
+            updatedAt = Instant.now(),
+            deletedAt = null
         ),
         onClick = { }
     )

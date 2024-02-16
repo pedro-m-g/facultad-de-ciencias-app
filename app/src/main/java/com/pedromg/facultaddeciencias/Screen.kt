@@ -13,6 +13,7 @@ import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Star
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavBackStackEntry
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
@@ -23,6 +24,7 @@ import com.pedromg.facultaddeciencias.ui.views.CounselingView
 import com.pedromg.facultaddeciencias.ui.views.JobOffersView
 import com.pedromg.facultaddeciencias.ui.views.NewsArticleView
 import com.pedromg.facultaddeciencias.ui.views.NewsView
+import com.pedromg.facultaddeciencias.ui.views.NewsViewModel
 import com.pedromg.facultaddeciencias.ui.views.ProceduresView
 import com.pedromg.facultaddeciencias.ui.views.ProfessionalPracticeView
 import com.pedromg.facultaddeciencias.ui.views.SocialServiceView
@@ -51,7 +53,8 @@ sealed class Screen(
         title = "Noticias",
         icon = Icons.Default.Notifications,
         content = { _: NavBackStackEntry, navController: NavHostController ->
-            NewsView(navController)
+            val newsViewModel: NewsViewModel = viewModel(factory = NewsViewModel.NewsViewModelFactory())
+            NewsView(navController, newsViewModel)
         }
     )
 
