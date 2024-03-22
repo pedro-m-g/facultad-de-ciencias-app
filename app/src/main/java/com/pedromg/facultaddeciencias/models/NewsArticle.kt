@@ -1,5 +1,7 @@
 package com.pedromg.facultaddeciencias.models
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import java.time.Instant
 
 data class NewsArticle(
@@ -11,3 +13,8 @@ data class NewsArticle(
     val updatedAt: Instant,
     val deletedAt: Instant?
 )
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun createEmptyArticle(): NewsArticle {
+    return NewsArticle("", "", "", "", Instant.now(), Instant.now(), null)
+}

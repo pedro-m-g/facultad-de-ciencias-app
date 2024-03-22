@@ -23,13 +23,18 @@ data class NewsArticleDto(
 
 @RequiresApi(Build.VERSION_CODES.O)
 fun mapNewsArticleList(response: NewsArticleListResponse): List<NewsArticle> {
-    return response.data.map { NewsArticle(
-        it.id,
-        it.title,
-        it.excerpt,
-        it.body,
-        Instant.ofEpochMilli(it.createdAt),
-        Instant.ofEpochMilli(it.updatedAt),
-        if (it.deletedAt == 0L) null else Instant.ofEpochMilli(it.deletedAt)
-    ) }
+    return response.data.map { mapNewsArticle(it) }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+fun mapNewsArticle(response: NewsArticleDto): NewsArticle {
+    return NewsArticle(
+        response.id,
+        response.title,
+        response.excerpt,
+        response.body,
+        Instant.ofEpochMilli(response.createdAt),
+        Instant.ofEpochMilli(response.updatedAt),
+        if (response.deletedAt == 0L) null else Instant.ofEpochMilli(response.deletedAt)
+    )
 }

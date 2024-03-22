@@ -1,5 +1,7 @@
 package com.pedromg.facultaddeciencias
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountBox
 import androidx.compose.material.icons.filled.Build
@@ -23,6 +25,7 @@ import com.pedromg.facultaddeciencias.ui.views.CalendarView
 import com.pedromg.facultaddeciencias.ui.views.CounselingView
 import com.pedromg.facultaddeciencias.ui.views.JobOffersView
 import com.pedromg.facultaddeciencias.ui.views.NewsArticleView
+import com.pedromg.facultaddeciencias.ui.views.NewsArticleViewModel
 import com.pedromg.facultaddeciencias.ui.views.NewsView
 import com.pedromg.facultaddeciencias.ui.views.NewsViewModel
 import com.pedromg.facultaddeciencias.ui.views.ProceduresView
@@ -48,6 +51,7 @@ sealed class Screen(
         )
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     object NewsScreen : Screen(
         route = "news_screen",
         title = "Noticias",
@@ -58,6 +62,7 @@ sealed class Screen(
         }
     )
 
+    @RequiresApi(Build.VERSION_CODES.O)
     object NewsArticleScreen : Screen(
         route = "news_article_screen/{articleId}",
         basePath = "news_article_screen",
@@ -68,7 +73,8 @@ sealed class Screen(
             }
         ),
         content = { navBackStackEntry: NavBackStackEntry, _: NavHostController ->
-            NewsArticleView(navBackStackEntry)
+            val newsArticleViewModel: NewsArticleViewModel = viewModel(factory = NewsArticleViewModel.NewsArticleViewModelFactory())
+            NewsArticleView(navBackStackEntry, newsArticleViewModel)
         }
     )
 

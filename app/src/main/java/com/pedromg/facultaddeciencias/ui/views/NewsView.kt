@@ -29,6 +29,7 @@ import com.pedromg.facultaddeciencias.Screen
 import com.pedromg.facultaddeciencias.models.NewsArticle
 import java.time.Instant
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun NewsView(navController: NavHostController, viewModel: NewsViewModel) {
     val newsArticles = viewModel.news.value
@@ -81,6 +82,7 @@ fun NewsView(navController: NavHostController, viewModel: NewsViewModel) {
             }
         }
     }
+
     DisposableEffect(Unit) {
         viewModel.fetchNews()
         onDispose {  }
