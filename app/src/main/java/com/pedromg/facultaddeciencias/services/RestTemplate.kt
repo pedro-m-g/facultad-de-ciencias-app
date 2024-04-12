@@ -5,7 +5,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 
 object RestTemplate {
 
-    private const val BASE_URL = "https://facultaddecienciasuabc.net/public/"
+    private const val BASE_URL = "https://facultaddecienciasuabc.net/public/api/"
 
     val newsClient: NewsClient by lazy {
         val retrofit = Retrofit.Builder()

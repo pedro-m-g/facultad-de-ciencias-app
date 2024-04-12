@@ -3,22 +3,28 @@ package com.pedromg.facultaddeciencias.dto
 import android.os.Build
 import androidx.annotation.RequiresApi
 import com.pedromg.facultaddeciencias.models.NewsArticle
-import java.time.Instant
+import java.time.LocalDate
 
 data class NewsArticleListResponse(
-    val limit: Int,
-    val offset: Int,
-    val data: List<NewsArticleDto>
+    val current_page: Int,
+    val data: List<NewsArticleDto>,
+    val first_page_url: String,
+    val from: Int,
+    val last_page: Int,
+    val last_page_url: String,
+    val next_page_url: String?,
+    val path: String,
+    val per_page: Int,
+    val prev_page_url: String?,
+    val to: Int,
+    val total: Int
 )
 
 data class NewsArticleDto(
     val id: String,
     val title: String,
-    val excerpt: String,
-    val body: String,
-    val createdAt: Long,
-    val updatedAt: Long,
-    val deletedAt: Long
+    val content: String,
+    val published_at: String
 )
 
 @RequiresApi(Build.VERSION_CODES.O)
@@ -31,10 +37,7 @@ fun mapNewsArticle(response: NewsArticleDto): NewsArticle {
     return NewsArticle(
         response.id,
         response.title,
-        response.excerpt,
-        response.body,
-        Instant.ofEpochMilli(response.createdAt),
-        Instant.ofEpochMilli(response.updatedAt),
-        if (response.deletedAt == 0L) null else Instant.ofEpochMilli(response.deletedAt)
+        response.content,
+        LocalDate.parse(response.published_at)
     )
 }

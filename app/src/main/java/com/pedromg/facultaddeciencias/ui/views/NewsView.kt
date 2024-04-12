@@ -28,6 +28,7 @@ import com.pedromg.facultaddeciencias.R
 import com.pedromg.facultaddeciencias.Screen
 import com.pedromg.facultaddeciencias.models.NewsArticle
 import java.time.Instant
+import java.time.LocalDate
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
@@ -124,13 +125,10 @@ fun NewsCard(
                 modifier = Modifier
                     .padding(bottom = 8.dp)
             )
-            Text(
-                text = newsArticle.excerpt
-            )
             Button(
                 onClick = onClick
             ) {
-                Text(text = "Leer más")
+                Text(text = "Ver artículo")
             }
         }
     }
@@ -144,11 +142,8 @@ fun NewsCardPreview() {
         newsArticle = NewsArticle(
             id = "1",
             title = "Nuevo descubrimiento de exoplaneta",
-            body = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
-            excerpt = "Resumen del artículo super interesante",
-            createdAt = Instant.now(),
-            updatedAt = Instant.now(),
-            deletedAt = null
+            content = "Contenido super interesante de 'Nuevo descubrimiento de exoplaneta'",
+            publishedAt = LocalDate.now()
         ),
         onClick = { }
     )

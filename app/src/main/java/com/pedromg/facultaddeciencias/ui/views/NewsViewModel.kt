@@ -29,7 +29,7 @@ class NewsViewModel: ViewModel() {
                     news.value = response
                 }
             } catch (e: Exception) {
-                Log.e("NewsViewModel", e.toString())
+                e.printStackTrace();
             }
         }
     }
